@@ -1,7 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); 
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
 const router = express.Router();
+
+dotenv.config(); 
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const User = require("../models/userModel"); 
 
@@ -56,7 +61,7 @@ router.post('/login', (request, response) => {
                             userId: user._id,
                             userEmail: user.email, 
                         },
-                        "RANDOM_TOKEN",
+                        JWT_SECRET,
                         {
                             expiresIn: "24h"
                         }
@@ -70,7 +75,7 @@ router.post('/login', (request, response) => {
                 }) 
                 .catch((error) => {
                     response.status(400).send({
-                        message: "Passwords does not match",
+                        message: "An error occurred while checking the password",
                         error, 
                     });
                 })
