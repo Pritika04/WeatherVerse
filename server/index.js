@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 7000;
 const MONGO_URL = process.env.MONGO_URL;
 
-app.use((request, response, next) => {
+app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
         "Access-Control-Allow-Headers",

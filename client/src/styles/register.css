@@ -1,0 +1,100 @@
+.register-card {
+    background-color: #b2e1ed;
+    height: auto;
+    min-height: 79vh;
+    max-width: 500px;
+    margin: 20px;
+    padding: 2rem 2.5rem;
+    text-align: center; 
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: black;
+}
+
+.register-card h2 {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.register-card form input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    border: 1px solid #444;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: 'Life Savers', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen';
+}
+
+.avatar-header {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4px;
+    margin-top: 1rem; 
+}
+
+.avatar-label {
+    text-align: left;
+}
+
+.avatar-options {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0.5rem 0 1rem;
+    gap: 0px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+}
+
+.avatar-img {
+    width: 90px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.2s ease;
+}
+  
+.avatar-img.selected {
+    transform: scale(1.3);
+    transition: transform 0.2s ease;
+}
+
+.register-card button {
+    background-color: #092e67;
+    color: white;
+    border: none;
+    margin-top: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0d3b8e;
+}
+  
+.login-link {
+    margin-top: 1.1rem;
+    margin-bottom: 0rem;
+    font-style: italic;
+    color: #222;
+}
+
+.error-text {
+    color: rgb(237, 9, 9);
+    font-size: 0.8rem;
+    display: block;
+    height: 1em;
+    margin-top: 2px;
+    text-align: left;
+    font-weight: bold;
+}
