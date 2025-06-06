@@ -69,7 +69,12 @@ router.post('/login', (request, response) => {
 
                     response.status(200).send({
                         message: "Login Successful",
-                        email: user.email,
+                        user: {
+                            _id: user._id,
+                            name: user.name,
+                            email: user.email,
+                            avatar: user.avatar
+                        },
                         token,
                     });
                 }) 

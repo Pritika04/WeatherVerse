@@ -27,9 +27,11 @@ app.use(express.json());
 
 const authRoutes = require('./routes/authRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
+const searchRoutes = require('./routes/searchRoutes'); 
 
 app.use('/auth', authRoutes); 
 app.use('/api', protectedRoutes);
+app.use('/users', searchRoutes); 
 
 mongoose.connect(MONGO_URL).then(() => {
     console.log("Database is connected successfully");

@@ -32,7 +32,7 @@ export default function Login() {
                     path: "/",
                     maxAge: 86400,
                 });
-                navigate('/Dashboard');
+                navigate('/Dashboard', { state: { user: data.user } });
               } else {
                 if (response.status === 404) {
                     alert("User not found. Please register.");
