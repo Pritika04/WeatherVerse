@@ -27,4 +27,48 @@ router.get('/search', authMiddleware, async (request, response) => {
 
 }); 
 
+router.post('/friends', authMiddleware, async (request, response) => {
+    try {
+        const userId = request.user.userId;
+        const { friends } = request.body; 
+
+        if (!Array.isArray(friends)) {
+            return response.status(400).json({ message: 'Invalid friends format' });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return response.status(404).json({ message: 'User not found!' });
+        }
+
+        for (const friend of friends) {
+            const index = user.friends.findIndex(f => f.friendId.toString() === friend.friendId);
+
+            if (index === -1) {
+                // add new friend
+                user.friends.push(friend);
+            } else {
+                if (friend.customName && user.friends[index].customName !== friend.customName) {
+                    user.friends[index].customName = friend.customName;
+                }
+            }
+            
+        }
+
+        await user.save(); 
+
+        response.status(200).json({ 
+            message: 'Friends updated successfully'
+        });
+
+    } catch (error) {
+        console.error('Friends error:', error);
+        response.status(500).json({ message: 'Server error' });
+    }
+
+}); 
+
+
+
 module.exports = router;

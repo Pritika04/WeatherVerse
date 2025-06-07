@@ -21,7 +21,22 @@ const userSchema = new Schema({
     avatar: {
         type: String,
         required: [true, "Please pick an avatar!"],
-    }
+    },
+
+    friends: [
+        {
+            friendId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Users',
+                required: true
+            },
+
+            customName: {
+                type: String,
+                required: false
+            }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Users', userSchema); 

@@ -53,21 +53,46 @@ export default function SearchPopup({ onClose, currentUser }) {
         if (selectedUsers.some((u) => u._id === user._id)) {
             setSelectedUsers(selectedUsers.filter((u) => u._id !== user._id));
         } else {
-            setSelectedUsers([...selectedUsers, user]);
+            const input = prompt(`Rename contact "${user.name}"? Leave blank to keep original name:`);
+            const newName = input?.trim() || null;
+
+            setSelectedUsers([...selectedUsers, {
+                user,
+                nickname: newName
+            }]);
         }
     }
 
-    const handleAddAll = () => {
-        // make an api request to users-friends endpoint to populate the database 
-        alert("Added!");
+    const handleAddAll = async () => {
+        try {
+            const friendsToSend = selectedUsers.map(({ user, nickname }) => ({
+                friendId: user._id,
+                customName: nickname || user.name 
+            }));
 
-        setSelectedUsers([]);
-        onClose(); 
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/users/friends`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ friends: friendsToSend })
+            });
+
+            if (!res.ok) {
+                throw new Error('Failed to update friends');
+            }
+
+            const data = await res.json();
+
+            alert("Added!");
+            setSelectedUsers([]);
+            onClose(); 
+        } catch(error) {
+            console.error('Search failed:', error);
+            alert('Error adding friends'); 
+        } 
     }
-
-    React.useEffect(() => {
-        console.log("Loading state changed:", loading);
-    }, [loading]);
 
     return (
         <div className="popup-overlay">
@@ -119,14 +144,14 @@ export default function SearchPopup({ onClose, currentUser }) {
                 {selectedUsers.length > 0 && (
                     <div className="selected-users">
                         <div className="user-tags">
-                            {selectedUsers.map((user) => (
+                            {selectedUsers.map(({ user, nickname }) => (
                                 <span key={user._id} className="user-tag">
                                     <img
                                         src={`/avatars/${user.avatar}`} 
                                         alt={`${user.name}'s avatar`} 
                                         style={{ width: 40, height: 30, borderRadius: '50%', marginRight: 8 }}
                                     />
-                                    {user.name}
+                                    {user.name} ({nickname})
                                     <button className="remove-btn" onClick={() => toggleUser(user)}>×</button>
                                 </span>
                             ))}
